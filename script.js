@@ -11,7 +11,6 @@ function apiSearch(event) {
 searchForm.addEventListener('submit', apiSearch);
 
 function requestApi(method, url) {
-
     const request = new XMLHttpRequest();
     request.open(method, url);
     request.send();
@@ -30,16 +29,9 @@ function requestApi(method, url) {
 
         output.results.forEach(function(item) {
             let nameItem = item.name || item.title;
-            //console.log(item);
-            inner += `<div class="col-3">${nameItem}</div>`;
-            
+            inner += `<div class="col-3">${nameItem}</div>`;            
         });
 
         movie.innerHTML = inner;
-                
-        //console.log(output);
     });
-
-    
-    
 }
