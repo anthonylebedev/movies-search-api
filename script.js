@@ -1,5 +1,6 @@
 const searchForm = document.querySelector('#search-form');
 const movie = document.querySelector('#movies');
+const posterPath= 'https://image.tmdb.org/t/p/w500';
 
 function apiSearch(event) {
     event.preventDefault();
@@ -9,21 +10,30 @@ function apiSearch(event) {
 
     fetch(url)
         .then(function(value) {
+            if (value.status !== 200) {
+                return Promise.reject(value.status);
+            }
             return value.json();
         })
         .then(function(output) {
             let inner = '';
     
             output.results.forEach(function(item) {
+                console.log(item);
                 let nameItem = item.name || item.title;
-                inner += `<div class="col-3">${nameItem}</div>`;            
+                inner += `
+                    <div class="item col-3">
+                        <img src="${posterPath + item.poster_path}" alt="${nameItem}">
+                        <h5>${nameItem}</h5>
+                    </div>
+                `;
             });
     
             movie.innerHTML = inner;    
         })
-        .catch(function() {
+        .catch(function(reason) {
             movie.innerHTML = 'Упс...';
-            console.log(reason.status);
+            console.log('err: ' + reason);
         });
 }
 
